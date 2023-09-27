@@ -2,14 +2,20 @@
   "name": "first-bun-project",
   "version": "1.0.50",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+    "dev": "bun run --watch src/index.ts",
+    "test:unit": "bun test",
+    "test:unit:watch": "bun test --watch"
   },
   "dependencies": {
-    "elysia": "latest"
+    "@elysiajs/jwt": "^0.7.0",
+    "@elysiajs/swagger": "^0.7.3",
+    "@prisma/client": "5.3.1",
+    "elysia": "latest",
+    "zod": "^3.22.2"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "prisma": "^5.3.1"
   },
   "module": "src/index.js"
 }
