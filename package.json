@@ -3,8 +3,8 @@
   "version": "1.0.50",
   "scripts": {
     "dev": "bun run --watch src/index.ts",
-    "test:unit": "bun test",
-    "test:unit:watch": "bun test --watch"
+    "test:unit": "bun test -t use case",
+    "test:unit:watch": "bun test -t use case --watch"
   },
   "dependencies": {
     "@elysiajs/cookie": "^0.7.0",
