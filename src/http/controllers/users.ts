@@ -52,7 +52,37 @@ export const usersController = (app: Elysia) => app
     }
   }, {
     detail: {
-      tags: ["Auth"]
+      tags: ["Auth"],
+      description: "Route for user registration",
+      requestBody: {
+        description: "Data required for user registration",
+        content: {
+          "firstName": {
+            example: "John",
+          },
+          "lastName": {
+            example: "Doe"
+          },
+          "email": {
+            example: "johndoe@hotmail.com"
+          },
+          "password": {
+            example: "12345"
+          }
+        },
+        required: true,
+      },
+      responses: {
+        "201": {
+          description: "User registration successful"
+        },
+        "409": {
+          description: "Conflict. indicates that the user already exists in the database"
+        },
+        "500": {
+          description: "Other server error"
+        }
+      }
     }
   })
   // Signin controller
@@ -82,6 +112,7 @@ export const usersController = (app: Elysia) => app
           maxAge: 7 * 86400,
         })
 
+      set.status = 200 // OK
       return { token: cookie.auth }
     } catch (err) {
       if (err instanceof InvalidCredentialsError) {
@@ -89,11 +120,36 @@ export const usersController = (app: Elysia) => app
         return { message: err.message }
       }
 
+      set.status = 500 // Other error
       throw err
     }
   }, {
     detail: {
-      tags: ["Auth"]
+      tags: ["Auth"],
+      description: "Route for user authentication",
+      requestBody: {
+        description: "Data required for user authentication",
+        content: {
+          "email": {
+            example: "johndoe@hotmail.com"
+          },
+          "password": {
+            example: "12345"
+          }
+        },
+        required: true,
+      },
+      responses: {
+        "200": {
+          description: "User authenticated"
+        },
+        "401": {
+          description: "Unauthorized. invalid credentials"
+        },
+        "500": {
+          description: "Other server error"
+        }
+      }
     }
   })
   // Get user profile
@@ -118,10 +174,26 @@ export const usersController = (app: Elysia) => app
         return { message: err.message }
       }
 
+      set.status = 500 // Other error
       throw err
     }
   }, {
     detail: {
       tags: ["App"],
+      description: "Route to return the user profile based on the ID saved in the JWT that is stored (or not) in a cookie named: 'auth'",
+      responses: {
+        "200": {
+          description: "User profile was successfully retrieved"
+        },
+        "401": {
+          description: "An error message is displayed indicating that the user is not authorized"
+        },
+        "404": {
+          description: "An error message is displayed indicating that the user was not found"
+        },
+        "500": {
+          description: "Other server error"
+        }
+      }
     }
   })
