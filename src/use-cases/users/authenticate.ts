@@ -31,6 +31,6 @@ export class AuthenticateUserUseCase implements UseCase<AuthenticateUserUseCaseR
       throw new InvalidCredentialsError()
     }
 
-    return { user }
+    return { user: { ...user, password: "" } }
   }
 }
